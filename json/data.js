@@ -54,12 +54,43 @@ form.addEventListener('submit', function (event) {
     let queryString = Object.keys(obj).map(key => key + '=' + obj[key]).join('&');
 
     console.log(queryString)
-
-    let queryString_obj = JSON.parse('{"' + queryString.replace(/&/g, '","').replace(/=/g, '":"') + '"}',
-        function (key, value) {
-            return key === "" ? value : decodeURIComponent(value)
-        })
-
-    console.log(queryString_obj)
+    document.location.replace(document.location.pathname + '?' + queryString);
 })
+
+window.addEventListener('load', function (event) {
+
+    const queryString = event.path[0].location.search.substr(1);
+
+    if (queryString) {
+        document.getElementById('FName').value = queryString?.split('&')[0].split('=')[1]
+        document.getElementById('LName').value = queryString.split('&')[1].split('=')[1]
+        document.getElementById('Email').value = queryString.split('&')[2].split('=')[1]
+        document.getElementById('Phone').value = queryString.split('&')[3].split('=')[1]
+
+        const sex = queryString.split('&')[4].split('=')[1];
+        console.log(sex)
+        document.querySelector(`input[id="Male"]`).checked = sex === 'Male';
+        document.querySelector(`input[id="Female"]`).checked = sex === 'Female';
+
+        const skills = queryString.split('&')[5].split('=')[1]
+        console.log(skills)
+        document.querySelector(`input[id="HTML"]`).checked = skills.includes('HTML');
+        document.querySelector(`input[id="CSS"]`).checked = skills.includes('CSS');
+        document.querySelector(`input[id="JavaScript"]`).checked = skills.includes('JavaScript');
+        document.querySelector(`input[id="AJAX"]`).checked = skills.includes('AJAX');
+
+        const department = queryString.split('&')[6].split('=')[1]
+        console.log(department)
+        document.querySelector(`option[value="FrontEnd"]`).selected = department.includes('FrontEnd');
+        document.querySelector(`option[value="Sitecore"]`).selected = department.includes('Sitecore');
+        document.querySelector(`option[value="SalesForce"]`).selected = department.includes('SalesForce');
+        document.querySelector(`option[value="Sharepoint"]`).selected = department.includes('Sharepoint');
+    }
+
+})
+
+
+
+
+
 
